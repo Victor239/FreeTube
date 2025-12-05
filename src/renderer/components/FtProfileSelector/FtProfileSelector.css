@@ -24,7 +24,7 @@
   position: absolute;
   inset-block-start: 60px;
   inset-inline-end: 10px;
-  min-inline-size: 250px;
+  min-inline-size: calc(250px * var(--profile-columns, 1));
   block-size: auto;
   padding: 5px;
   background-color: var(--card-bg-color);
@@ -42,6 +42,11 @@
   */
   max-block-size: calc(90vh - 100px);
   min-block-size: 340px;
+
+  display: grid;
+  grid-template-columns: repeat(var(--profile-columns, 1), minmax(250px, 1fr));
+  gap: 0;
+  grid-auto-rows: 50px;
 }
 
 /* Navbar changes position to horizontal with this media rule.
@@ -49,6 +54,11 @@ Height adjust for profile list so it won't cover navbar.  */
 @media only screen and (width <= 680px) {
   .profileWrapper {
     max-block-size: calc(95vh - 180px);
+    grid-template-columns: repeat(min(var(--profile-columns, 1), 2), minmax(250px, 1fr));
+  }
+
+  .profileList {
+    min-inline-size: calc(250px * min(var(--profile-columns, 1), 2));
   }
 }
 
@@ -56,6 +66,10 @@ Height adjust for profile list so it won't cover navbar.  */
   cursor: pointer;
   block-size: 50px;
   transition: background 0.2s ease-out;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-inline-start: 10px;
 }
 
 .profile:hover {
@@ -65,10 +79,7 @@ Height adjust for profile list so it won't cover navbar.  */
 }
 
 .profile .colorOption {
-  float: inline-start;
-  position: relative;
-  inset-block-end: 5px;
-  margin: 10px;
+  flex-shrink: 0;
 }
 
 .profileName {
@@ -76,6 +87,10 @@ Height adjust for profile list so it won't cover navbar.  */
   align-items: center;
   block-size: 50px;
   padding-inline-end: 10px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profileListTitle {

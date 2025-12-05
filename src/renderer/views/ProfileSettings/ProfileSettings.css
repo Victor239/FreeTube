@@ -10,16 +10,6 @@ h2 {
   max-inline-size: 1000px;
   margin-block: 0 10px;
   margin-inline: auto;
-  display: grid;
-  grid-template-columns: repeat(var(--profile-columns, 1), minmax(100px, 1fr));
-  gap: 10px;
-  justify-items: center;
-}
-
-.profileColumnsSelector {
-  max-inline-size: 300px;
-  margin-block: 10px;
-  margin-inline: auto;
 }
 
 .openedProfile {
@@ -40,12 +30,14 @@ h2 {
   margin-inline: auto;
 }
 
+.profileColumnsSelector {
+  max-inline-size: 300px;
+  margin-block: 10px;
+  margin-inline: auto;
+}
+
 @media only screen and (width <= 680px) {
   .card {
     inline-size: 90%;
-  }
-
-  .profileList {
-    grid-template-columns: repeat(min(var(--profile-columns, 1), 2), minmax(100px, 1fr));
   }
 }

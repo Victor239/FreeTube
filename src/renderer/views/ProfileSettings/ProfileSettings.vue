@@ -2,9 +2,8 @@
   <div>
     <FtCard class="card">
       <h2>{{ $t("Profile.Profile Manager") }}</h2>
-      <div
+      <FtFlexBox
         class="profileList"
-        :style="{ '--profile-columns': profilesDisplayColumns }"
       >
         <FtProfileBubble
           v-for="profile in profileList"
@@ -16,7 +15,7 @@
           :class="{ openedProfile: openSettingsProfile?._id === profile._id }"
           @click="openSettingsForProfileWithId(profile._id)"
         />
-      </div>
+      </FtFlexBox>
       <FtFlexBox
         v-if="!isNewProfileOpen"
       >
@@ -30,7 +29,7 @@
         class="profileColumnsSelector"
       >
         <FtSelect
-          :placeholder="$t('Profile.Profile Display Columns')"
+          :placeholder="$t('Profile.Profile Select Dropdown Columns')"
           :value="profilesDisplayColumnsString"
           :select-names="profileColumnOptions"
           :select-values="profileColumnOptions"

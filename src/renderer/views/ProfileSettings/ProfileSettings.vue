@@ -31,9 +31,9 @@
       >
         <FtSelect
           :placeholder="$t('Profile.Profile Display Columns')"
-          :value="String(profilesDisplayColumns)"
-          :select-names="profileColumnNames"
-          :select-values="profileColumnValues"
+          :value="profilesDisplayColumnsString"
+          :select-names="profileColumnOptions"
+          :select-values="profileColumnOptions"
           :icon="['fas', 'grip']"
           @change="handleProfileColumnsChange"
         />
@@ -117,8 +117,11 @@ const profilesDisplayColumns = computed(() => {
   return store.getters.getProfilesDisplayColumns
 })
 
-const profileColumnNames = ['1', '2', '3', '4', '5']
-const profileColumnValues = ['1', '2', '3', '4', '5']
+const profilesDisplayColumnsString = computed(() => {
+  return String(profilesDisplayColumns.value)
+})
+
+const profileColumnOptions = ['1', '2', '3', '4', '5']
 
 function openSettingsForNewProfile() {
   isNewProfileOpen.value = true
@@ -172,7 +175,7 @@ function handleProfileDeleted() {
  * @param {string} value
  */
 function handleProfileColumnsChange(value) {
-  store.dispatch('updateProfilesDisplayColumns', Number.parseInt(value))
+  store.dispatch('updateProfilesDisplayColumns', parseInt(value))
 }
 </script>
 

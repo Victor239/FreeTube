@@ -11,6 +11,23 @@ import {
   showToast
 } from '../../helpers/utils'
 
+// Helper functions to persist auto-fetch state across windows
+function loadAutoFetchSetFromSessionStorage(key) {
+  const stored = sessionStorage.getItem(`subscriptionAutoFetch/${key}`)
+  if (stored) {
+    try {
+      return new Set(JSON.parse(stored))
+    } catch {
+      return new Set()
+    }
+  }
+  return new Set()
+}
+
+function saveAutoFetchSetToSessionStorage(key, set) {
+  sessionStorage.setItem(`subscriptionAutoFetch/${key}`, JSON.stringify([...set]))
+}
+
 const state = {
   isSideNavOpen: false,
   outlinesHidden: true,
@@ -53,10 +70,10 @@ const state = {
     podcasts: ''
   },
   subscriptionFirstAutoFetchRunData: {
-    videos: new Set(),
-    liveStreams: new Set(),
-    shorts: new Set(),
-    posts: new Set(),
+    videos: loadAutoFetchSetFromSessionStorage('videos'),
+    liveStreams: loadAutoFetchSetFromSessionStorage('liveStreams'),
+    shorts: loadAutoFetchSetFromSessionStorage('shorts'),
+    posts: loadAutoFetchSetFromSessionStorage('posts'),
   },
   appTitle: '',
   openPrompts: new Set()
@@ -999,15 +1016,19 @@ const mutations = {
 
   setSubscriptionForVideosFirstAutoFetchRun (state, profileId) {
     state.subscriptionFirstAutoFetchRunData.videos.add(profileId)
+    saveAutoFetchSetToSessionStorage('videos', state.subscriptionFirstAutoFetchRunData.videos)
   },
   setSubscriptionForLiveStreamsFirstAutoFetchRun (state, profileId) {
     state.subscriptionFirstAutoFetchRunData.liveStreams.add(profileId)
+    saveAutoFetchSetToSessionStorage('liveStreams', state.subscriptionFirstAutoFetchRunData.liveStreams)
   },
   setSubscriptionForShortsFirstAutoFetchRun (state, profileId) {
     state.subscriptionFirstAutoFetchRunData.shorts.add(profileId)
+    saveAutoFetchSetToSessionStorage('shorts', state.subscriptionFirstAutoFetchRunData.shorts)
   },
   setSubscriptionForPostsFirstAutoFetchRun (state, profileId) {
     state.subscriptionFirstAutoFetchRunData.posts.add(profileId)
+    saveAutoFetchSetToSessionStorage('posts', state.subscriptionFirstAutoFetchRunData.posts)
   }
 }
 

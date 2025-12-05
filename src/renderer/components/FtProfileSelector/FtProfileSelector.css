@@ -49,9 +49,11 @@
   /*
   Using 1fr instead of minmax(250px, 1fr) to prevent horizontal scrollbar.
   Columns will flex within the constrained dropdown width rather than enforcing a minimum.
+  Using column-major order (grid-auto-flow: column) so items fill top-to-bottom, then left-to-right.
   */
   display: grid;
   grid-template-columns: repeat(var(--profile-columns, 1), 1fr);
+  grid-auto-flow: column;
   gap: 5px;
   grid-auto-rows: 50px;
 }

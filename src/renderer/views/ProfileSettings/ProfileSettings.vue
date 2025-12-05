@@ -24,6 +24,19 @@
           @click="openSettingsForNewProfile"
         />
       </FtFlexBox>
+      <FtFlexBox
+        v-if="!isNewProfileOpen"
+        class="profileColumnsSelector"
+      >
+        <FtSelect
+          :placeholder="$t('Profile.Profile Select Dropdown Columns')"
+          :value="profilesDisplayColumnsString"
+          :select-names="profileColumnOptions"
+          :select-values="profileColumnOptions"
+          :icon="['fas', 'grip']"
+          @change="handleProfileColumnsChange"
+        />
+      </FtFlexBox>
     </FtCard>
     <div
       v-if="openSettingsProfile"
@@ -59,6 +72,7 @@ import FtButton from '../../components/FtButton/FtButton.vue'
 import FtProfileEdit from '../../components/FtProfileEdit/FtProfileEdit.vue'
 import FtProfileChannelList from '../../components/FtProfileChannelList/FtProfileChannelList.vue'
 import FtProfileFilterChannelsList from '../../components/FtProfileFilterChannelsList/FtProfileFilterChannelsList.vue'
+import FtSelect from '../../components/FtSelect/FtSelect.vue'
 
 import store from '../../store/index'
 
@@ -97,6 +111,16 @@ watch(profileList, () => {
 const isMainProfile = computed(() => {
   return MAIN_PROFILE_ID === openSettingsProfileId.value
 })
+
+const profilesDisplayColumns = computed(() => {
+  return store.getters.getProfilesDisplayColumns
+})
+
+const profilesDisplayColumnsString = computed(() => {
+  return String(profilesDisplayColumns.value)
+})
+
+const profileColumnOptions = ['1', '2', '3', '4', '5']
 
 function openSettingsForNewProfile() {
   isNewProfileOpen.value = true
@@ -144,6 +168,13 @@ function handleNewProfileCreated() {
 function handleProfileDeleted() {
   openSettingsProfile.value = null
   openSettingsProfileId.value = ''
+}
+
+/**
+ * @param {string} value
+ */
+function handleProfileColumnsChange(value) {
+  store.dispatch('updateProfilesDisplayColumns', parseInt(value))
 }
 </script>
 

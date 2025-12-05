@@ -306,6 +306,7 @@ const state = {
   quickBookmarkTargetPlaylistId: 'favorites',
   generalAutoLoadMorePaginatedItemsEnabled: false,
   hideToTrayOnMinimize: false,
+  profilesDisplayColumns: 1,
 
   // The settings below have side effects
   currentLocale: 'system',

@@ -2,8 +2,9 @@
   <div>
     <FtCard class="card">
       <h2>{{ $t("Profile.Profile Manager") }}</h2>
-      <FtFlexBox
+      <div
         class="profileList"
+        :style="{ '--profile-columns': profilesDisplayColumns }"
       >
         <FtProfileBubble
           v-for="profile in profileList"
@@ -15,13 +16,26 @@
           :class="{ openedProfile: openSettingsProfile?._id === profile._id }"
           @click="openSettingsForProfileWithId(profile._id)"
         />
-      </FtFlexBox>
+      </div>
       <FtFlexBox
         v-if="!isNewProfileOpen"
       >
         <FtButton
           :label="$t('Profile.Create New Profile')"
           @click="openSettingsForNewProfile"
+        />
+      </FtFlexBox>
+      <FtFlexBox
+        v-if="!isNewProfileOpen"
+        class="profileColumnsSelector"
+      >
+        <FtSelect
+          :placeholder="$t('Profile.Profile Display Columns')"
+          :value="String(profilesDisplayColumns)"
+          :select-names="profileColumnNames"
+          :select-values="profileColumnValues"
+          :icon="['fas', 'grip']"
+          @change="handleProfileColumnsChange"
         />
       </FtFlexBox>
     </FtCard>
@@ -59,6 +73,7 @@ import FtButton from '../../components/FtButton/FtButton.vue'
 import FtProfileEdit from '../../components/FtProfileEdit/FtProfileEdit.vue'
 import FtProfileChannelList from '../../components/FtProfileChannelList/FtProfileChannelList.vue'
 import FtProfileFilterChannelsList from '../../components/FtProfileFilterChannelsList/FtProfileFilterChannelsList.vue'
+import FtSelect from '../../components/FtSelect/FtSelect.vue'
 
 import store from '../../store/index'
 
@@ -97,6 +112,13 @@ watch(profileList, () => {
 const isMainProfile = computed(() => {
   return MAIN_PROFILE_ID === openSettingsProfileId.value
 })
+
+const profilesDisplayColumns = computed(() => {
+  return store.getters.getProfilesDisplayColumns
+})
+
+const profileColumnNames = ['1', '2', '3', '4', '5']
+const profileColumnValues = ['1', '2', '3', '4', '5']
 
 function openSettingsForNewProfile() {
   isNewProfileOpen.value = true
@@ -144,6 +166,13 @@ function handleNewProfileCreated() {
 function handleProfileDeleted() {
   openSettingsProfile.value = null
   openSettingsProfileId.value = ''
+}
+
+/**
+ * @param {string} value
+ */
+function handleProfileColumnsChange(value) {
+  store.dispatch('updateProfilesDisplayColumns', Number.parseInt(value))
 }
 </script>
 

@@ -30,6 +30,12 @@ h2 {
   margin-inline: auto;
 }
 
+.profileColumnsSelector {
+  max-inline-size: 300px;
+  margin-block: 10px;
+  margin-inline: auto;
+}
+
 @media only screen and (width <= 680px) {
   .card {
     inline-size: 90%;

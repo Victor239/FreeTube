@@ -49,6 +49,8 @@ const fetchSubscriptionsAutomatically = computed(() => store.getters.getFetchSub
 
 const activeSubscriptionList = computed(() => store.getters.getActiveProfile.subscriptions)
 
+const activeProfileId = computed(() => store.getters.getActiveProfile._id)
+
 const cacheEntriesForAllActiveProfileChannels = computed(() => {
   const postsCache = store.getters.getPostsCache
   const entries = []
@@ -130,7 +132,7 @@ function loadPostsFromRemoteFirstPerWindowSometimes() {
 
   alreadyLoadedRemotely = true
   loadPostsForSubscriptionsFromRemote()
-  store.commit('setSubscriptionForPostsFirstAutoFetchRun')
+  store.commit('setSubscriptionForPostsFirstAutoFetchRun', activeProfileId.value)
 }
 
 function loadPostsFromCacheSometimes() {

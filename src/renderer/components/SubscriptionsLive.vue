@@ -59,6 +59,8 @@ const fetchSubscriptionsAutomatically = computed(() => store.getters.getFetchSub
 
 const activeSubscriptionList = computed(() => store.getters.getActiveProfile.subscriptions)
 
+const activeProfileId = computed(() => store.getters.getActiveProfile._id)
+
 const cacheEntriesForAllActiveProfileChannels = computed(() => {
   const liveCache = store.getters.getLiveCache
   const entries = []
@@ -140,7 +142,7 @@ function loadVideosFromRemoteFirstPerWindowSometimes() {
 
   alreadyLoadedRemotely = true
   loadVideosForSubscriptionsFromRemote()
-  store.commit('setSubscriptionForLiveStreamsFirstAutoFetchRun')
+  store.commit('setSubscriptionForLiveStreamsFirstAutoFetchRun', activeProfileId.value)
 }
 
 function loadVideosFromCacheSometimes() {

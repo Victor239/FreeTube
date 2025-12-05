@@ -145,9 +145,11 @@ function loadPostsFromCacheSometimes() {
     return
   }
 
-  if (fetchSubscriptionsAutomatically.value) {
+  if (fetchSubscriptionsAutomatically.value && !store.getters.getSubscriptionForPostsFirstAutoFetchRun) {
     // `isLoading.value = false` is called inside `loadPostsForSubscriptionsFromRemote` when needed
+    alreadyLoadedRemotely = true
     loadPostsForSubscriptionsFromRemote()
+    store.commit('setSubscriptionForPostsFirstAutoFetchRun', activeProfileId.value)
     return
   }
 

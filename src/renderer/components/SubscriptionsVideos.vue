@@ -154,9 +154,11 @@ function loadVideosFromCacheSometimes() {
     return
   }
 
-  if (fetchSubscriptionsAutomatically.value) {
+  if (fetchSubscriptionsAutomatically.value && !store.getters.getSubscriptionForVideosFirstAutoFetchRun) {
     // `isLoading.value = false` is called inside `loadVideosForSubscriptionsFromRemote` when needed
+    alreadyLoadedRemotely = true
     loadVideosForSubscriptionsFromRemote()
+    store.commit('setSubscriptionForVideosFirstAutoFetchRun', activeProfileId.value)
     return
   }
 

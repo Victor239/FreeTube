@@ -20,11 +20,13 @@
 }
 
 .profileList {
+  --profile-column-width: 250px;
+  
   display: inline;
   position: absolute;
   inset-block-start: 60px;
   inset-inline-end: 10px;
-  inline-size: min(calc(250px * var(--profile-columns, 1)), 90vw);
+  inline-size: min(calc(var(--profile-column-width) * var(--profile-columns, 1)), 90vw);
   block-size: auto;
   padding: 5px;
   background-color: var(--card-bg-color);
@@ -44,6 +46,10 @@
   max-block-size: calc(90vh - 100px);
   min-block-size: 340px;
 
+  /*
+  Using 1fr instead of minmax(250px, 1fr) to prevent horizontal scrollbar.
+  Columns will flex within the constrained dropdown width rather than enforcing a minimum.
+  */
   display: grid;
   grid-template-columns: repeat(var(--profile-columns, 1), 1fr);
   gap: 5px;
@@ -59,7 +65,7 @@ Height adjust for profile list so it won't cover navbar.  */
   }
 
   .profileList {
-    inline-size: min(calc(250px * min(var(--profile-columns, 1), 2)), 90vw);
+    inline-size: min(calc(var(--profile-column-width) * min(var(--profile-columns, 1), 2)), 90vw);
   }
 }
 

@@ -139,18 +139,18 @@ function loadPostsFromCacheSometimes() {
   // Can only load reliably when cache ready
   if (!subscriptionCacheReady.value) { return }
 
-  // Check if this profile needs to be auto-fetched for the first time
+  // This method is called on view visible
+  if (postCacheForAllActiveProfileChannelsPresent.value) {
+    loadPostsFromCacheForAllActiveProfileChannels()
+    return
+  }
+
+  // No cache present - check if we should auto-fetch
   if (fetchSubscriptionsAutomatically.value && !store.getters.getSubscriptionForPostsFirstAutoFetchRun) {
     // `isLoading.value = false` is called inside `loadPostsForSubscriptionsFromRemote` when needed
     alreadyLoadedRemotely = true
     loadPostsForSubscriptionsFromRemote()
     store.commit('setSubscriptionForPostsFirstAutoFetchRun', activeProfileId.value)
-    return
-  }
-
-  // This method is called on view visible
-  if (postCacheForAllActiveProfileChannelsPresent.value) {
-    loadPostsFromCacheForAllActiveProfileChannels()
     return
   }
 

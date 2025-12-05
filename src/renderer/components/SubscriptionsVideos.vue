@@ -148,18 +148,18 @@ function loadVideosFromCacheSometimes() {
   // Can only load reliably when cache ready
   if (!subscriptionCacheReady.value) { return }
 
-  // Check if this profile needs to be auto-fetched for the first time
+  // This method is called on view visible
+  if (videoCacheForAllActiveProfileChannelsPresent.value) {
+    loadVideosFromCacheForAllActiveProfileChannels()
+    return
+  }
+
+  // No cache present - check if we should auto-fetch
   if (fetchSubscriptionsAutomatically.value && !store.getters.getSubscriptionForVideosFirstAutoFetchRun) {
     // `isLoading.value = false` is called inside `loadVideosForSubscriptionsFromRemote` when needed
     alreadyLoadedRemotely = true
     loadVideosForSubscriptionsFromRemote()
     store.commit('setSubscriptionForVideosFirstAutoFetchRun', activeProfileId.value)
-    return
-  }
-
-  // This method is called on view visible
-  if (videoCacheForAllActiveProfileChannelsPresent.value) {
-    loadVideosFromCacheForAllActiveProfileChannels()
     return
   }
 

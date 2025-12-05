@@ -51,8 +51,8 @@
   Columns will flex within the constrained dropdown width rather than enforcing a minimum.
   Using column-major order (grid-auto-flow: column) so items fill vertically first
   (top-to-bottom), then horizontally (left-to-right).
-  We define a large number of rows (50) to accommodate any reasonable number of profiles,
-  and grid-auto-columns creates columns as needed based on --profile-columns setting.
+  We define 50 rows to accommodate any reasonable number of profiles,
+  and grid-template-columns creates the exact number of columns based on --profile-columns setting.
   */
   display: grid;
   grid-auto-flow: column;

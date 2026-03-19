@@ -179,6 +179,7 @@ User Playlists:
   Move Video Up: Move video up
   Cancel: Cancel
   Remove from Playlist: Remove from playlist
+  Remove from Named Playlist: 'Remove from Playlist ({playlistName})'
   Copy Playlist: Copy playlist
   Remove Watched Videos: Remove watched videos
   Are you sure you want to delete this playlist? This cannot be undone: Are you sure you want to delete this playlist? This cannot be undone.

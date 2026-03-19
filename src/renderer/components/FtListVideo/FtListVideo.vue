@@ -72,9 +72,21 @@
           @click="togglePlaylistPrompt"
         />
         <FtIconButton
+          v-if="firstNonQuickBookmarkPlaylistContainingVideo"
+          :title="t('User Playlists.Remove from Named Playlist', {
+            playlistName: firstNonQuickBookmarkPlaylistContainingVideo.playlistName,
+          })"
+          :icon="['fas', 'bookmark']"
+          class="inPlaylistVideoIcon"
+          theme="base favorite"
+          :padding="playlistIconPadding"
+          :size="playlistIconSize"
+          @click="removeFromNonQuickBookmarkPlaylist"
+        />
+        <FtIconButton
           v-if="isQuickBookmarkEnabled && quickBookmarkButtonEnabled"
           :title="quickBookmarkIconText"
-          :icon="isInQuickBookmarkPlaylist ? ['fas', 'check'] : ['fas', 'bookmark']"
+          :icon="isInQuickBookmarkPlaylist ? ['fas', 'heart'] : ['far', 'heart']"
           class="quickBookmarkVideoIcon"
           :class="{
             bookmarked: isInQuickBookmarkPlaylist,
@@ -842,6 +854,16 @@ const quickBookmarkIconText = computed(() => {
 
 const quickBookmarkIconTheme = computed(() => isInQuickBookmarkPlaylist.value ? 'base favorite' : 'base')
 
+const firstNonQuickBookmarkPlaylistContainingVideo = computed(() => {
+  const id_ = id.value
+  const quickBookmarkId = quickBookmarkPlaylist.value?._id
+
+  return store.getters.getAllPlaylists.find((playlist) => {
+    if (playlist._id === quickBookmarkId) { return false }
+    return playlist.videos.some((video) => video.videoId === id_)
+  }) ?? null
+})
+
 const playlistIconPadding = computed(() => props.appearance === 'watchPlaylistItem' ? 5 : 6)
 const playlistIconSize = computed(() => props.appearance === 'watchPlaylistItem' ? 14 : 18)
 
@@ -1175,6 +1197,19 @@ function removeFromQuickBookmarkPlaylist() {
   })
 
   // TODO: Maybe show playlist name
+  showToast(t('Video.Video has been removed from your saved list'))
+}
+
+function removeFromNonQuickBookmarkPlaylist() {
+  const playlist = firstNonQuickBookmarkPlaylistContainingVideo.value
+  if (!playlist) { return }
+
+  store.dispatch('removeVideo', {
+    _id: playlist._id,
+    // Remove all playlist items with same videoId
+    videoId: id.value,
+  })
+
   showToast(t('Video.Video has been removed from your saved list'))
 }
 

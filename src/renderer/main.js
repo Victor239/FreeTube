@@ -126,7 +126,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faBookmark as farBookmark,
-  faDotCircle as farDotCircle
+  faDotCircle as farDotCircle,
+  faHeart as farHeart,
 } from '@fortawesome/free-regular-svg-icons'
 import {
   faBitcoin,
@@ -249,9 +250,10 @@ library.add(
   faWifi,
   faXmark,
 
-  // solid icons
+  // regular icons
   farBookmark,
   farDotCircle,
+  farHeart,
 
   // brand icons
   faGithub,

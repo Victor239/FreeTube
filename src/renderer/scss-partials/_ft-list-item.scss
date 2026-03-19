@@ -405,6 +405,7 @@ $watched-transition-duration: 0.5s;
   @media (hover: hover) {
     &:hover .quickBookmarkVideoIcon:not(.alwaysVisible),
     .quickBookmarkVideoIcon.bookmarked:not(.alwaysVisible),
+    .inPlaylistVideoIcon:not(.alwaysVisible),
     &:hover .addToPlaylistIcon:not(.alwaysVisible),
     &:hover .externalPlayerIcon,
     &:has(:focus-visible) .addToPlaylistIcon:not(.alwaysVisible),

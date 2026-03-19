@@ -103,7 +103,7 @@
 </template>
 
 <script setup>
-import { computed, ref, shallowRef } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import FtCard from '../ft-card/ft-card.vue'
@@ -197,6 +197,16 @@ const generalAutoLoadMorePaginatedItemsEnabled = computed(() => {
 const canPerformInitialCommentLoading = computed(() => {
   return commentData.value.length === 0 && !isLoading.value && !showComments.value
 })
+
+watch(
+  [() => props.videoPlayerReady, () => props.isPostComments],
+  ([isReady, isPost]) => {
+    if ((isReady || isPost) && canPerformInitialCommentLoading.value) {
+      getCommentData()
+    }
+  },
+  { immediate: true }
+)
 
 const canPerformMoreCommentLoading = computed(() => {
   return commentData.value.length > 0 && !isLoading.value && showComments.value && !!nextPageToken.value && !isMoreCommentsLoading.value

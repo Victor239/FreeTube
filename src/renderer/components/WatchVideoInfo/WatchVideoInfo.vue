@@ -112,19 +112,27 @@
         </span>
         <span class="videoOptionsMobileRow">
           <FtIconButton
-            v-if="USING_ELECTRON && externalPlayer !== ''"
-            :title="t('Video.External Player.OpenInTemplate', { externalPlayer })"
-            :icon="['fas', 'external-link-alt']"
-            theme="secondary"
-            @click="handleExternalPlayer"
-          />
-          <FtIconButton
             v-if="!isUpcoming"
             :title="t('Change Format.Change Media Formats')"
             theme="secondary"
             :icon="['fas', 'file-video']"
             :dropdown-options="formatTypeOptions"
             @click="changeFormat"
+          />
+          <FtIconButton
+            class="swapSectionsButton"
+            :class="{ inactive: !swapWatchPageSections }"
+            :title="t('Video.Swap Watch Page Sections')"
+            :icon="['fas', 'exchange-alt']"
+            theme="secondary"
+            @click="toggleSwapWatchPageSections"
+          />
+          <FtIconButton
+            v-if="USING_ELECTRON && externalPlayer !== ''"
+            :title="t('Video.External Player.OpenInTemplate', { externalPlayer })"
+            :icon="['fas', 'external-link-alt']"
+            theme="secondary"
+            @click="handleExternalPlayer"
           />
           <FtShareButton
             v-if="!hideSharingActions"
@@ -339,6 +347,13 @@ const historyEntryExists = computed(() => store.getters.getHistoryCacheById[prop
 
 /** @type {import('vue').ComputedRef<string>} */
 const externalPlayer = computed(() => store.getters.getExternalPlayer)
+
+/** @type {import('vue').ComputedRef<boolean>} */
+const swapWatchPageSections = computed(() => store.getters.getSwapWatchPageSections)
+
+function toggleSwapWatchPageSections() {
+  store.dispatch('updateSwapWatchPageSections', !swapWatchPageSections.value)
+}
 
 /** @type {import('vue').ComputedRef<number>} */
 const defaultPlayback = computed(() => store.getters.getDefaultPlayback)

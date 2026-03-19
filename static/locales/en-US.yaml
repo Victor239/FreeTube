@@ -457,6 +457,7 @@ Settings:
     Skip by Scrolling Over Video Player: Skip by Scrolling Over Video Player
     Display Play Button In Video Player: Display Play Button In Video Player
     Enter Fullscreen on Display Rotate: Enter Fullscreen on Display Rotate
+    Swap Watch Page Sections: Swap positions of next recommendations and video metadata sections
     Next Video Interval: Autoplay Countdown Timer
     Autoplay Interruption Timer: Autoplay Interruption Timer
     Fast-Forward / Rewind Interval: Fast-Forward / Rewind Interval
@@ -919,6 +920,7 @@ Video:
     music offtopic: Music Offtopic
     recap: Recap
     filler: Filler
+  Swap Watch Page Sections: Swap watch page sections
   External Player:
     OpenInTemplate: Open in {externalPlayer}
     video: video

@@ -248,6 +248,9 @@ export default defineComponent({
     showFamilyFriendlyOnly: function () {
       return this.$store.getters.getShowFamilyFriendlyOnly
     },
+    swapWatchPageSections: function () {
+      return this.$store.getters.getSwapWatchPageSections
+    },
     hideChannelSubscriptions: function () {
       return this.$store.getters.getHideChannelSubscriptions
     },

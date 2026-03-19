@@ -251,6 +251,7 @@ const state = {
   watchedProgressSavingMode: 'auto',
   saveVideoHistoryWithLastViewedPlaylist: true,
   showFamilyFriendlyOnly: false,
+  swapWatchPageSections: false,
   sponsorBlockShowSkippedToast: true,
   sponsorBlockUrl: 'https://sponsor.ajay.app',
   sponsorBlockSponsor: {

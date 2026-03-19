@@ -4,7 +4,8 @@
     :class="{
       isLoading,
       useTheatreMode: useTheatreMode && !isLoading,
-      noSidebar: !theatrePossible
+      noSidebar: !theatrePossible,
+      swapWatchPageSections
     }"
   >
     <ft-loader
@@ -126,7 +127,7 @@
     />
     <div
       v-if="(isFamilyFriendly || !showFamilyFriendlyOnly)"
-      class="infoArea"
+      class="videoInfoArea"
     >
       <watch-video-info
         v-if="!isLoading"
@@ -158,6 +159,11 @@
         @pause-player="pausePlayer"
         @save-watched-progress="handleWatchProgressManualSave"
       />
+    </div>
+    <div
+      v-if="(isFamilyFriendly || !showFamilyFriendlyOnly)"
+      class="infoArea"
+    >
       <watch-video-chapters
         v-if="!hideChapters && !isLoading && videoChapters.length > 0"
         :chapters="videoChapters"

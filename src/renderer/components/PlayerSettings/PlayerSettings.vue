@@ -73,6 +73,12 @@
           :default-value="enterFullscreenOnDisplayRotate"
           @change="updateEnterFullscreenOnDisplayRotate"
         />
+        <FtToggleSwitch
+          :label="t('Settings.Player Settings.Swap Watch Page Sections')"
+          :compact="true"
+          :default-value="swapWatchPageSections"
+          @change="updateSwapWatchPageSections"
+        />
       </div>
     </div>
     <FtFlexBox>
@@ -384,6 +390,16 @@ const enterFullscreenOnDisplayRotate = computed(() => store.getters.getEnterFull
  */
 function updateEnterFullscreenOnDisplayRotate(value) {
   store.dispatch('updateEnterFullscreenOnDisplayRotate', value)
+}
+
+/** @type {import('vue').ComputedRef<boolean>} */
+const swapWatchPageSections = computed(() => store.getters.getSwapWatchPageSections)
+
+/**
+ * @param {boolean} value
+ */
+function updateSwapWatchPageSections(value) {
+  store.dispatch('updateSwapWatchPageSections', value)
 }
 
 /** @type {import('vue').ComputedRef<string>} */

@@ -139,3 +139,11 @@
     inset-inline: 0 auto;
   }
 }
+
+.swapSectionsButton.inactive :deep(.iconButton.secondary) {
+  background-color: #808080;
+}
+
+.swapSectionsButton.inactive :deep(.iconButton.secondary:hover) {
+  background-color: #696969;
+}

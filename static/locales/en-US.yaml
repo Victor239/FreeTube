@@ -510,6 +510,25 @@ Settings:
     Players:
       None:
         Name: None
+  Account Cookies Settings:
+    Account Cookies Settings: Account Cookies
+    Description: Use the YouTube cookies from your browser so FreeTube's built-in player can
+      play videos that require being signed in (age-restricted, members-only, region-locked,
+      or "sign in to confirm you're not a bot"). Toggle this on with the key button next to the
+      Refresh Videos button. Warning, this links these playback requests to your Google account
+      and carries the same account risk as using yt-dlp or mpv with your cookies.
+    Browser: Browser
+    Profile: Profile
+    Default Profile: Default profile
+    Refresh Cookies: Refresh cookies
+    Cookies Imported: 'Imported {count} cookies, signed in'
+    Not Signed In: Cookies imported, but no signed-in account was found
+    No Cookies Found: No cookies found for the selected profile
+    Import Failed: Failed to import cookies
+    Toggle On: 'Account cookies: on (authenticated playback)'
+    Toggle Off: 'Account cookies: off'
+    Enabled Toast: Account cookies enabled
+    Disabled Toast: Account cookies disabled
   Privacy Settings:
     Privacy Settings: Privacy
     Remember History: Remember Watch History

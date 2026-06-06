@@ -43,6 +43,10 @@ const IpcChannels = {
 
   GENERATE_PO_TOKEN: 'generate-po-token',
 
+  LIST_FIREFOX_PROFILES: 'list-firefox-profiles',
+  GET_BROWSER_COOKIES: 'get-browser-cookies',
+  CLEAR_BROWSER_COOKIES: 'clear-browser-cookies',
+
   CHOOSE_DEFAULT_FOLDER: 'choose-default-folder',
   WRITE_TO_DEFAULT_FOLDER: 'write-to-default-folder',
 

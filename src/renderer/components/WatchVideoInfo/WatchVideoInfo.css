@@ -147,3 +147,12 @@
 .swapSectionsButton.inactive :deep(.iconButton.secondary:hover) {
   background-color: #696969;
 }
+
+/* Grey out the account cookies toggle when authenticated playback is off. */
+.accountCookiesButton.inactive :deep(.iconButton.secondary) {
+  background-color: #808080;
+}
+
+.accountCookiesButton.inactive :deep(.iconButton.secondary:hover) {
+  background-color: #696969;
+}

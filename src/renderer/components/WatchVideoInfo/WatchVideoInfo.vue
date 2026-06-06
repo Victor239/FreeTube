@@ -120,6 +120,15 @@
             @click="changeFormat"
           />
           <FtIconButton
+            v-if="USING_ELECTRON"
+            class="accountCookiesButton"
+            :class="{ inactive: !useAccountCookies }"
+            :title="accountCookiesButtonTitle"
+            :icon="['fas', 'cookie-bite']"
+            :theme="useAccountCookies ? 'primary' : 'secondary'"
+            @click="toggleAccountCookies"
+          />
+          <FtIconButton
             class="swapSectionsButton"
             :class="{ inactive: !swapWatchPageSections }"
             :title="t('Video.Swap Watch Page Sections')"
@@ -159,6 +168,7 @@ import FtSubscribeButton from '../FtSubscribeButton/FtSubscribeButton.vue'
 import store from '../../store'
 
 import { formatNumber, showToast } from '../../helpers/utils'
+import { clearAccountCookies, refreshAccountCookies } from '../../helpers/api/local'
 
 const props = defineProps({
   id: {
@@ -353,6 +363,43 @@ const swapWatchPageSections = computed(() => store.getters.getSwapWatchPageSecti
 
 function toggleSwapWatchPageSections() {
   store.dispatch('updateSwapWatchPageSections', !swapWatchPageSections.value)
+}
+
+/** @type {import('vue').ComputedRef<boolean>} */
+const useAccountCookies = computed(() => store.getters.getUseAccountCookies)
+
+const accountCookiesButtonTitle = computed(() => {
+  return useAccountCookies.value
+    ? t('Settings.Account Cookies Settings.Toggle On')
+    : t('Settings.Account Cookies Settings.Toggle Off')
+})
+
+async function toggleAccountCookies() {
+  const enabled = !useAccountCookies.value
+  store.dispatch('updateUseAccountCookies', enabled)
+
+  try {
+    if (enabled) {
+      const result = await refreshAccountCookies({
+        browser: store.getters.getAccountCookiesBrowser,
+        profile: store.getters.getAccountCookiesProfile
+      })
+
+      if (result && result.count > 0) {
+        showToast(result.hasAuth
+          ? t('Settings.Account Cookies Settings.Cookies Imported', { count: result.count })
+          : t('Settings.Account Cookies Settings.Not Signed In'))
+      } else {
+        showToast(t('Settings.Account Cookies Settings.No Cookies Found'))
+      }
+    } else {
+      await clearAccountCookies()
+      showToast(t('Settings.Account Cookies Settings.Disabled Toast'))
+    }
+  } catch (error) {
+    console.error(error)
+    showToast(t('Settings.Account Cookies Settings.Import Failed'))
+  }
 }
 
 /** @type {import('vue').ComputedRef<number>} */

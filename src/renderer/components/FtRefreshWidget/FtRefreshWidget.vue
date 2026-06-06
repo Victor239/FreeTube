@@ -8,15 +8,17 @@
     >
       {{ t('Feed.Feed Last Updated', { feedName: title, date: lastRefreshTimestamp }) }}
     </p>
-    <FtIconButton
-      :disabled="disableRefresh"
-      :icon="['fas', 'sync']"
-      class="refreshButton"
-      :title="refreshFeedButtonTitle"
-      :size="12"
-      theme="primary"
-      @click="click"
-    />
+    <div class="refreshButtons">
+      <FtIconButton
+        :disabled="disableRefresh"
+        :icon="['fas', 'sync']"
+        class="refreshButton"
+        :title="refreshFeedButtonTitle"
+        :size="12"
+        theme="primary"
+        @click="click"
+      />
+    </div>
   </div>
 </template>
 

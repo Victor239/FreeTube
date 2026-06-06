@@ -29,6 +29,7 @@ import contextMenu from 'electron-context-menu'
 import packageDetails from '../../package.json'
 import { handleOpenInExternalPlayer } from './externalPlayer'
 import { generatePoToken } from './poTokenGenerator'
+import { clearBrowserCookies, importBrowserCookies, listFirefoxProfiles } from './browserCookies'
 import { isFreeTubeUrl } from './utils'
 
 const brotliDecompressAsync = promisify(brotliDecompress)
@@ -1309,6 +1310,24 @@ function runApp() {
   ipcMain.handle(IpcChannels.GENERATE_PO_TOKEN, (event, videoId, context, initialAttestationData, ytConfig) => {
     if (isFreeTubeUrl(event.senderFrame.url)) {
       return generatePoToken(videoId, context, initialAttestationData, ytConfig, proxyUrl)
+    }
+  })
+
+  ipcMain.handle(IpcChannels.LIST_FIREFOX_PROFILES, (event) => {
+    if (isFreeTubeUrl(event.senderFrame.url)) {
+      return listFirefoxProfiles()
+    }
+  })
+
+  ipcMain.handle(IpcChannels.GET_BROWSER_COOKIES, (event, options) => {
+    if (isFreeTubeUrl(event.senderFrame.url)) {
+      return importBrowserCookies(options)
+    }
+  })
+
+  ipcMain.handle(IpcChannels.CLEAR_BROWSER_COOKIES, (event) => {
+    if (isFreeTubeUrl(event.senderFrame.url)) {
+      return clearBrowserCookies()
     }
   })
 

@@ -5,6 +5,7 @@ import {
   DBSearchHistoryHandlers,
   DBSettingHandlers,
 } from '../../../datastores/handlers/index'
+import { getAccountCookie } from '../../helpers/api/local'
 
 // WatchSync keeps a device's user data in sync with a self-hosted central store
 // (see ../../../../../1MY_REPOS/Self-Hosted/WatchSync). Each sync is a single
@@ -23,6 +24,11 @@ import {
 
 // Settings that must never leave or be overwritten by a sync: the WatchSync
 // controls themselves (syncing them would fight other devices / cause loops).
+// `accountCookieString` is here because it has its own one-way flow (see below):
+// only the desktop pushes it (fresh from the browser each sync) and only the
+// Android fork applies it — letting it through the generic settings round trip
+// would allow a device's stale persisted copy to win the last-push-wins merge
+// on the server.
 const NON_SYNCED_SETTING_IDS = new Set([
   'bounds',
   'watchSyncEnabled',
@@ -33,7 +39,12 @@ const NON_SYNCED_SETTING_IDS = new Set([
   'watchSyncLog',
   'watchSyncClientId',
   'watchSyncLastVersion',
+  'accountCookieString',
 ])
+
+// The settings-collection record id used to carry the desktop's YouTube account
+// cookie string to Android devices (which have no browser to import it from).
+const ACCOUNT_COOKIE_SETTING_ID = 'accountCookieString'
 
 // Cap on persisted log entries so the setting doesn't grow without bound.
 const MAX_LOG_ENTRIES = 30
@@ -118,6 +129,31 @@ const actions = {
       if (includeSettings) {
         const settings = (await DBSettingHandlers.find()) ?? []
         collections.settings = settings.filter((s) => s != null && !NON_SYNCED_SETTING_IDS.has(s._id))
+      }
+
+      // Account cookie, desktop → Android. The desktop (Electron) can import the
+      // YouTube account cookies from a local browser; Android cannot, so when the
+      // feature is enabled the desktop piggybacks the cookie string on the sync as
+      // a settings record, which the Android fork picks out of the sync response.
+      // Sent even when settings sync is off — it's what makes authenticated
+      // playback possible on Android at all. Best-effort: a failed import must
+      // not fail the whole sync.
+      if (process.env.IS_ELECTRON && rootState.settings.useAccountCookies) {
+        try {
+          const cookie = await getAccountCookie({
+            browser: rootState.settings.accountCookiesBrowser,
+            profile: rootState.settings.accountCookiesProfile,
+          })
+
+          if (cookie) {
+            collections.settings = [
+              ...(collections.settings ?? []),
+              { _id: ACCOUNT_COOKIE_SETTING_ID, value: cookie },
+            ]
+          }
+        } catch (error) {
+          console.error('[WatchSync] account cookie import failed, syncing without it', error)
+        }
       }
 
       // ── Push + pull ──────────────────────────────────────────────────────

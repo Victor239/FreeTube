@@ -68,6 +68,7 @@ import GeneralSettings from '../../components/GeneralSettings/GeneralSettings.vu
 import ThemeSettings from '../../components/ThemeSettings.vue'
 import PlayerSettings from '../../components/PlayerSettings/PlayerSettings.vue'
 import ExternalPlayerSettings from '../../components/ExternalPlayerSettings.vue'
+import AccountCookiesSettings from '../../components/AccountCookiesSettings.vue'
 import SubscriptionSettings from '../../components/SubscriptionSettings/SubscriptionSettings.vue'
 import PrivacySettings from '../../components/PrivacySettings.vue'
 import DataSettings from '../../components/DataSettings/DataSettings.vue'
@@ -116,6 +117,12 @@ const settingsComponentsData = computed(() => {
           title: t('Settings.External Player Settings.External Player Settings'),
           icon: ['fas', 'clapperboard'],
           component: ExternalPlayerSettings
+        },
+        {
+          type: 'account-cookies',
+          title: t('Settings.Account Cookies Settings.Account Cookies Settings'),
+          icon: ['fas', 'key'],
+          component: AccountCookiesSettings
         }]
       : []),
     {

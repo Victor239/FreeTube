@@ -127,6 +127,28 @@ export default {
     return ipcRenderer.invoke(IpcChannels.GENERATE_PO_TOKEN, videoId, context, initialAttestationData, ytConfig)
   },
 
+  /**
+   * @returns {Promise<Array<{ name: string, path: string, default: boolean }>>}
+   */
+  listFirefoxProfiles: () => {
+    return ipcRenderer.invoke(IpcChannels.LIST_FIREFOX_PROFILES)
+  },
+
+  /**
+   * @param {{ browser?: string, profile?: string }} options
+   * @returns {Promise<{ profileName: string|null, cookieString: string, count: number, hasAuth: boolean }>}
+   */
+  getBrowserCookies: (options) => {
+    return ipcRenderer.invoke(IpcChannels.GET_BROWSER_COOKIES, options)
+  },
+
+  /**
+   * @returns {Promise<void>}
+   */
+  clearBrowserCookies: () => {
+    return ipcRenderer.invoke(IpcChannels.CLEAR_BROWSER_COOKIES)
+  },
+
   chooseDefaultFolder: () => {
     ipcRenderer.send(IpcChannels.CHOOSE_DEFAULT_FOLDER)
   },

@@ -14,6 +14,7 @@ first).
 6. [Auto-load comments when video player is ready](#auto-load-comments-when-video-player-is-ready)
 7. [feat: add WatchSync client to sync user data across devices](#feat-add-watchsync-client-to-sync-user-data-across-devices)
 8. [Add MY-CHANGES.md documenting fork commits](#add-my-changesmd-documenting-fork-commits)
+9. [feat: authenticated local playback via imported Firefox cookies](#feat-authenticated-local-playback-via-imported-firefox-cookies)
 
 ---
 
@@ -158,3 +159,81 @@ Adds this `MY-CHANGES.md` document itself. It records every commit on the
 of contents and one section per commit explaining what that commit does. The
 file is meant to be a human-readable overview of the fork's divergence from
 upstream, kept in sync as commits are added, squashed, or amended.
+
+## feat: authenticated local playback via imported Firefox cookies
+
+Lets FreeTube's **built-in** player play videos that normally require being
+signed in — age-restricted, members-only, region-locked, and "sign in to
+confirm you're not a bot" — by making the local (Innertube/youtube.js)
+extraction optionally authenticated with the user's real YouTube cookies,
+imported automatically from a Firefox profile. This mirrors what
+`yt-dlp --cookies-from-browser firefox:<profile>` does for the external mpv
+player, but keeps playback inside FreeTube. It is opt-in, Firefox-only, and
+scoped to video playback so all other requests stay anonymous.
+
+### How it works
+
+- **Reading the cookies (main process):** a new `src/main/browserCookies.js`
+  parses Firefox's `profiles.ini`, copies the chosen profile's
+  `cookies.sqlite` to a temp file (Firefox keeps it locked while running), and
+  reads the YouTube/Google cookies with the built-in `node:sqlite` module —
+  Firefox stores cookies unencrypted, so there is **no native dependency** and
+  no OS-keyring decryption (unlike Chromium browsers).
+- **Getting the cookies sent:** Electron's renderer `fetch` silently drops a
+  manually-set `Cookie` header, so the imported cookies are injected into the
+  default session's cookie jar (reusing the same `session.defaultSession.cookies.set`
+  approach FreeTube already uses for CONSENT/SOCS); Electron then attaches them
+  automatically. The cookie string is also passed to `Innertube.create({ cookie })`
+  so youtube.js can derive the `Authorization: SAPISIDHASH` header.
+- **Wiring:** `createInnertube` gains a `cookie` option; `getLocalVideoInfo`
+  takes the cookie and uses it for both the player request and the
+  `WEB_EMBEDDED` age-gate fallback. The `Watch` view resolves the cookie (when
+  enabled) and passes it down; the cookie string is cached in renderer memory
+  for the session and **never written to the settings database**. The existing
+  poToken flow is untouched.
+- **IPC:** three new channels — `LIST_FIREFOX_PROFILES`, `GET_BROWSER_COOKIES`
+  (reads + injects, returns a summary), and `CLEAR_BROWSER_COOKIES` (removes
+  exactly the injected cookies, leaving FreeTube's own intact).
+
+### UI
+
+- An **Enable cookies** toggle (a cookie-bite icon) sits in the watch-page
+  action buttons row, just left of the "Swap watch page sections" button, in
+  `WatchVideoInfo`. It turns red (`primary` theme) when authenticated playback
+  is on and grey when off, toasts the result, and imports/clears the cookies on
+  toggle. (Electron only.)
+- A new **Account Cookies** settings section (`AccountCookiesSettings.vue`,
+  registered in `Settings.vue`) selects the browser (Firefox) and profile
+  (defaults to the default profile) and has a "Refresh cookies" button.
+
+### Uploading the cookie for Android via WatchSync
+
+The FreeTubeAndroid fork has no local browser to import cookies from, so when
+account cookies are enabled here, every WatchSync push appends a `settings`
+record `{ _id: 'accountCookieString', value: <cookie string> }` — sent even
+when settings sync is off, and imported fresh from the browser each sync. The
+id is in `NON_SYNCED_SETTING_IDS`, so no device's *persisted* copy is ever
+gathered or applied through the generic settings round trip; only the desktop's
+fresh in-memory value flows (this stops a stale copy on another device from
+winning the server's last-push-wins settings merge). The Android fork picks the
+record out of the sync response, persists it, and injects it into its WebView
+cookie jar at playback time — see the matching commit in FreeTubeAndroid.
+
+### Notes / risks
+
+- Authenticating a third-party client with real account cookies carries a
+  non-zero account-ban risk (the same risk the mpv/yt-dlp setup already has)
+  and ties those playback requests to the Google identity.
+- Cookies expire/rotate, so they're re-imported once per app session and via
+  the manual refresh button.
+
+Adds settings keys `useAccountCookies`, `accountCookiesBrowser`, and
+`accountCookiesProfile`, plus `en-US` locale strings. Touches
+`src/main/browserCookies.js` (new), `src/constants.js`, `src/main/index.js`,
+`src/preload/interface.js`, `src/renderer/helpers/api/local.js`,
+`src/renderer/views/Watch/Watch.js`, `src/renderer/store/modules/settings.js`,
+`src/renderer/store/modules/watch-sync.js` (the WatchSync upload),
+`src/renderer/components/AccountCookiesSettings.vue` (new),
+`src/renderer/views/Settings/Settings.vue`,
+`src/renderer/components/WatchVideoInfo/WatchVideoInfo.{vue,css}`, and the
+`faCookieBite` icon registration in `src/renderer/main.js`.

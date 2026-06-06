@@ -731,6 +731,42 @@ About:
   these people and projects: these people and projects
   Donate: Donate
 
+WatchSync:
+  WatchSync: WatchSync
+  Description: Sync your subscriptions, playlists, watch history and search history to your own self-hosted WatchSync server so all your FreeTube devices stay in sync.
+  This device id: 'This device''s sync ID:'
+  Sync URL: Sync URL
+  Sync token: Sync token
+  Sync token placeholder: Optional bearer token
+  Sync frequency: Sync frequency (minutes)
+  Sync automatically: Sync automatically
+  Also sync settings: Also sync settings
+  Also sync settings tooltip: When enabled, your app settings are synced too. Most settings are device-specific, so this is off by default.
+  Save: Save
+  Sync now: Sync now
+  Syncing: Syncing…
+  Settings saved: WatchSync settings saved
+  Enter a URL first: Enter a sync URL first
+  Sync complete: Sync complete
+  Sync failed: 'Sync failed: {error}'
+  Sync log: Sync log
+  Manual: Manual
+  Automatic: Automatic
+  Error detail: 'Error: {error}'
+  No syncs yet: No syncs have run yet.
+  Clear log: Clear log
+  Never synced: Never synced
+  Last synced: 'Last synced: {time}'
+  Last sync failed: 'Last sync failed: {time}'
+  Up to date: Already up to date
+  Collection change: '{collection}: +{added} added, {updated} updated'
+  Collections:
+    History: History
+    Playlists: Playlists
+    Subscriptions: Subscriptions
+    Search history: Search history
+    Settings: Settings
+
 Profile:
   Profile Settings: Profile
   Toggle Profile List: Toggle Profile List

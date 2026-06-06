@@ -163,6 +163,28 @@
       <router-link
         class="navOption mobileHidden"
         role="button"
+        to="/watchsync"
+        :title="$t('WatchSync.WatchSync')"
+      >
+        <div
+          class="thumbnailContainer"
+        >
+          <FontAwesomeIcon
+            :icon="['fas', 'rotate']"
+            class="navIcon"
+            :class="applyNavIconExpand"
+          />
+        </div>
+        <p
+          v-if="!hideText"
+          class="navLabel"
+        >
+          {{ $t("WatchSync.WatchSync") }}
+        </p>
+      </router-link>
+      <router-link
+        class="navOption mobileHidden"
+        role="button"
         to="/about"
         :title="$t('About.About')"
       >

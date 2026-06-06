@@ -8,6 +8,7 @@ import UserPlaylists from '../views/UserPlaylists/UserPlaylists.vue'
 import History from '../views/History/History.vue'
 import Settings from '../views/Settings/Settings.vue'
 import About from '../views/About/About.vue'
+import WatchSync from '../views/WatchSync/WatchSync.vue'
 import SearchPage from '../views/SearchPage/SearchPage.vue'
 import Playlist from '../views/Playlist/Playlist.vue'
 import Channel from '../views/Channel/Channel.vue'
@@ -83,6 +84,14 @@ const router = createRouter({
         title: 'Settings'
       },
       component: Settings
+    },
+    {
+      path: '/watchsync',
+      name: 'watchSync',
+      meta: {
+        title: 'WatchSync'
+      },
+      component: WatchSync
     },
     {
       path: '/about',

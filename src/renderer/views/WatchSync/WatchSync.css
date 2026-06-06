@@ -1,0 +1,138 @@
+.introText {
+  margin-block: 0 16px;
+  color: var(--secondary-text-color);
+  max-inline-size: 70ch;
+}
+
+.clientIdLine {
+  margin-block: 0 16px;
+  color: var(--secondary-text-color);
+}
+
+.clientIdLine code {
+  font-family: monospace;
+  background-color: var(--card-bg-color);
+  padding-block: 1px;
+  padding-inline: 6px;
+  border-radius: 4px;
+}
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-block-end: 16px;
+}
+
+.syncField {
+  inline-size: 100%;
+  max-inline-size: 600px;
+}
+
+.intervalField {
+  max-inline-size: 220px;
+}
+
+.toggleRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  margin-block-end: 20px;
+}
+
+.actionRow {
+  gap: 12px;
+  margin-block-start: 12px;
+}
+
+.lastSyncSummary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-block-end: 16px;
+  font-weight: bold;
+}
+
+.statusIcon {
+  font-size: 18px;
+}
+
+.statusOk {
+  color: var(--primary-color);
+}
+
+.statusError {
+  color: var(--destructive-color);
+}
+
+.statusNeutral {
+  color: var(--tertiary-text-color);
+}
+
+.logList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logEntry {
+  padding-block: 10px;
+  padding-inline: 14px;
+  border-radius: 8px;
+  background-color: var(--card-bg-color);
+  border-inline-start: 3px solid var(--primary-color);
+}
+
+.logEntry.failed {
+  border-inline-start-color: var(--destructive-color);
+}
+
+.logHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.logIcon {
+  font-size: 14px;
+}
+
+.logEntry .logIcon {
+  color: var(--primary-color);
+}
+
+.logEntry.failed .logIcon {
+  color: var(--destructive-color);
+}
+
+.logTime {
+  font-weight: bold;
+}
+
+.logBadge {
+  font-size: 12px;
+  padding-block: 1px;
+  padding-inline: 8px;
+  border-radius: 10px;
+  background-color: var(--side-nav-color, rgb(127 127 127 / 20%));
+  color: var(--secondary-text-color);
+}
+
+.logDuration {
+  font-size: 12px;
+  color: var(--tertiary-text-color);
+}
+
+.logDetail {
+  margin-block-start: 6px;
+  color: var(--secondary-text-color);
+  font-size: 14px;
+}
+
+.logError {
+  color: var(--destructive-color);
+}

@@ -10,6 +10,7 @@ import searchHistory from './modules/search-history'
 import subscriptionCache from './modules/subscription-cache'
 import utils from './modules/utils'
 import player from './modules/player'
+import watchSync from './modules/watch-sync'
 
 export default createStore({
   modules: {
@@ -22,6 +23,7 @@ export default createStore({
     subscriptionCache,
     utils,
     player,
+    watchSync,
   },
 
   // Detects unsafe changes to the store state e.g. outside of mutations

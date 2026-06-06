@@ -315,6 +315,24 @@ const state = {
   hideToTrayOnMinimize: false,
   profilesDisplayColumns: 1,
 
+  // WatchSync — sync FreeTube user data to a self-hosted central store.
+  // (see src/renderer/store/modules/watch-sync.js and the WatchSync view)
+  watchSyncEnabled: false,
+  watchSyncUrl: '',
+  watchSyncToken: '',
+  watchSyncIntervalMinutes: 15,
+  watchSyncIncludeSettings: false,
+  // Server-assigned 6-character id for this device, persisted so the server
+  // recognises it across syncs (the WatchSync web app lists/renames these).
+  watchSyncClientId: '',
+  // Incremental-sync cursor: the highest store version this device has applied.
+  // The next sync sends it as `?since=` and only pulls records changed since.
+  // 0 (the default, or after a reset) requests a full snapshot.
+  watchSyncLastVersion: 0,
+  // JSON array of past sync log entries (newest first), persisted so the
+  // WatchSync page can show history across restarts. Bounded in the module.
+  watchSyncLog: '[]',
+
   // The settings below have side effects
   currentLocale: 'system',
   defaultInvidiousInstance: '',

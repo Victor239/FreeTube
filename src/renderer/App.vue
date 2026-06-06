@@ -198,6 +198,11 @@ onMounted(async () => {
 
     dataReady.value = true
 
+    // Start the WatchSync scheduler once user data is loaded. The action is a
+    // no-op unless syncing is enabled and a URL is configured, and it kicks off
+    // an immediate sync so a fresh launch picks up changes from other devices.
+    store.dispatch('restartWatchSyncScheduler')
+
     setTimeout(() => {
       checkForNewUpdates()
     }, 500)
@@ -215,6 +220,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  store.dispatch('stopWatchSyncScheduler')
   document.removeEventListener('keydown', handleKeyboardShortcuts)
   document.removeEventListener('mousedown', handleMouseDown)
   document.removeEventListener('dragstart', handleDragStart)

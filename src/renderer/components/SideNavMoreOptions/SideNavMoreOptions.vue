@@ -116,6 +116,26 @@
         </p>
       </router-link>
       <router-link
+        class="navOption"
+        :title="$t('WatchSync.WatchSync')"
+        :aria-label="hideLabelsSideBar ? $t('WatchSync.WatchSync') : null"
+        to="/watchsync"
+        @click="closeMenu"
+      >
+        <FontAwesomeIcon
+          :icon="['fas', 'rotate']"
+          class="navIcon"
+          :class="applyNavIconExpand"
+        />
+        <p
+          v-if="!hideLabelsSideBar"
+          id="watchSyncNavLabel"
+          class="navLabel"
+        >
+          {{ $t("WatchSync.WatchSync") }}
+        </p>
+      </router-link>
+      <router-link
         class="navOption smallMobileOnlyShow"
         :title="$t('Settings.Settings')"
         :aria-label="hideLabelsSideBar ? $t('Settings.Settings') : null"
